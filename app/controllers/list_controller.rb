@@ -2,11 +2,21 @@ class ListController < ApplicationController
 
   def create
     list = List.new(list_params)
-    
+
     if list.save
       render :json => list.to_json, :status => 201
     else
       render :json => list.errors.messages.to_json, :status => 400
+    end
+  end
+
+  def show
+    if (List.exists? params[:id])
+      list = List.find(params[:id])
+
+      render :json => list.to_json, :status => 200
+    else
+      render :json => { :message => "List not found" }.to_json, :status => 404
     end
   end
 
