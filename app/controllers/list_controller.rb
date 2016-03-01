@@ -20,6 +20,16 @@ class ListController < ApplicationController
     end
   end
 
+  def delete
+    if (List.exists? params[:id])
+      List.find(params[:id]).destroy
+
+      render :json => { :message => "Successfullu deleted list" }.to_json, :status => 200
+    else
+      render :json => { :message => "List not found" }.to_json, :status => 404
+    end
+  end
+
   private
 
   def list_params
