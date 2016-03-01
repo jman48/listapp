@@ -6,7 +6,7 @@ class ListController < ApplicationController
     if list.save
       render :json => list.to_json, :status => 201
     else
-      render :json => list.errors.messages.to_json, :status => 400
+      render :json => {:message => list.errors.messages}.to_json, :status => 400
     end
   end
 
@@ -16,7 +16,7 @@ class ListController < ApplicationController
 
       render :json => list.to_json, :status => 200
     else
-      render :json => { :message => "List not found" }.to_json, :status => 404
+      render :json => {:message => "List not found"}.to_json, :status => 404
     end
   end
 
@@ -24,9 +24,23 @@ class ListController < ApplicationController
     if (List.exists? params[:id])
       List.find(params[:id]).destroy
 
-      render :json => { :message => "Successfullu deleted list" }.to_json, :status => 200
+      render :json => {:message => "Successfullu deleted list"}.to_json, :status => 200
     else
-      render :json => { :message => "List not found" }.to_json, :status => 404
+      render :json => {:message => "List not found"}.to_json, :status => 404
+    end
+  end
+
+  def update
+    if (List.exists? params[:id])
+      list = List.find(params[:id])
+
+      if (list.update(list_params))
+        render :json => list.to_json, :status => 200
+      else
+        render :json => {:message => list.errors.messages}.to_json, :status => 400
+      end
+    else
+      render :json => {:message => "List not found"}.to_json, :status => 404
     end
   end
 
