@@ -1,5 +1,6 @@
 class ItemController < ApplicationController
   before_action :get_list
+  before_action :get_item, only: [:delete]
 
   def create
     item = Item.new(item_params)
@@ -16,6 +17,12 @@ class ItemController < ApplicationController
     render :json => @list.items.to_json
   end
 
+  def delete
+    @item.destroy
+
+    render :json => {:message => "Successfullu deleted item"}.to_json
+  end
+
   private
 
   def item_params
@@ -28,6 +35,14 @@ class ItemController < ApplicationController
       render :json => {:message => "List not found"}, :status => 404
     else
       @list = List.find(params[:list_id])
+    end
+  end
+
+  def get_item
+    if !Item.exists? params[:id]
+      render :json => {:message => "Item not found"}, :status => 404
+    else
+      @item = Item.find params[:id]
     end
   end
 end
