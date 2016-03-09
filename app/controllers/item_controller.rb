@@ -1,6 +1,6 @@
 class ItemController < ApplicationController
   before_action :get_list
-  before_action :get_item, only: [:delete]
+  before_action :get_item, only: [:delete, :item]
 
   def create
     item = Item.new(item_params)
@@ -21,6 +21,10 @@ class ItemController < ApplicationController
     @item.destroy
 
     render :json => {:message => "Successfullu deleted item"}.to_json
+  end
+
+  def item
+    render :json => @item
   end
 
   private
