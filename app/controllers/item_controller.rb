@@ -13,7 +13,7 @@ class ItemController < ApplicationController
     end
   end
 
-  def show
+  def list
     render :json => @list.items.to_json
   end
 
@@ -23,7 +23,7 @@ class ItemController < ApplicationController
     render :json => {:message => "Successfullu deleted item"}.to_json
   end
 
-  def item
+  def show
     render :json => @item
   end
 

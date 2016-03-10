@@ -8,9 +8,9 @@ Rails.application.routes.draw do
 
     scope '/:list_id/items/' do
       post '' => 'item#create'
-      get '' => 'item#show'
+      get '' => 'item#list'
       delete ':id' => 'item#delete'
-      get ':id' => 'item#item'
+      get ':id' => 'item#show'
     end
   end
 
