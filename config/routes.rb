@@ -14,6 +14,10 @@ Rails.application.routes.draw do
     end
   end
 
+  scope '/users' do
+    post '' => 'user#sign_up'
+  end
+
 # The priority is based upon order of creation: first created -> highest priority.
 # See how all your routes lay out with "rake routes".
 
