@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   scope '/users' do
     post '' => 'user#sign_up'
+    post '/login' => 'user#login'
   end
 
 # The priority is based upon order of creation: first created -> highest priority.
