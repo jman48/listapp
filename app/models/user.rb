@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   validates :username, :password, presence: true
   validates :username, uniqueness: true
+  has_and_belongs_to_many :lists
 
   before_save :secure_password
 

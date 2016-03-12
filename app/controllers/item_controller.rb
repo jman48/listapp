@@ -30,7 +30,6 @@ class ItemController < ApplicationController
   private
 
   def item_params
-    puts params.to_json
     params.require(:item).permit(:name)
   end
 
@@ -38,7 +37,11 @@ class ItemController < ApplicationController
     if !List.exists? params[:list_id]
       render :json => {:message => "List not found"}, :status => 404
     else
-      @list = List.find(params[:list_id])
+      @list = List.includes(:users).find(params[:list_id])
+
+      if !@list.users.include? @user
+        render :json => {:message => "You are not allowed to access this list"}, :status => 403 and return false
+      end
     end
   end
 

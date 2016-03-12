@@ -1,4 +1,5 @@
 class UserController < ApplicationController
+  before_action :auth_user, :except=> [:sign_up, :login]
 
   def sign_up
     new_user = User.new(user_params)
@@ -21,9 +22,11 @@ class UserController < ApplicationController
 
       token = JWT.encode payload, ENV["SECRET"], 'HS256'
 
-      render :json => {:token => token }
+      response.headers["token"] = token
+
+      render :json => {:token => token}
     else
-      render :json => { :message => "Password is incorrect" }, :status => 400
+      render :json => {:message => "Password is incorrect"}, :status => 400
     end
   end
 

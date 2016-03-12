@@ -4,6 +4,8 @@ class ListController < ApplicationController
   def create
     list = List.new(list_params)
 
+    list.users.push @user
+
     if list.save
       render :json => list.to_json, :status => 201
     else
@@ -37,9 +39,13 @@ class ListController < ApplicationController
 
   def get_list
     if List.exists? params[:id]
-      @list = List.find params[:id]
+      @list = List.includes(:users).find(params[:id])
+
+      if !@list.users.include? @user
+        render :json => {:message => "You are not allowed to access this list"}, :status => 403 and return false
+      end
     else
-      render :json => {:message => "List not found"}.to_json, :status => 404
+      render :json => {:message => "List not found"}.to_json, :status => 404 and return false
     end
   end
 end
