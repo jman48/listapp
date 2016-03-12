@@ -1,6 +1,6 @@
 class ItemController < ApplicationController
   before_action :get_list
-  before_action :get_item, only: [:delete, :item]
+  before_action :get_item, only: [:delete, :show]
 
   def create
     item = Item.new(item_params)
@@ -40,7 +40,7 @@ class ItemController < ApplicationController
       @list = List.includes(:users).find(params[:list_id])
 
       if !@list.users.include? @user
-        render :json => {:message => "You are not allowed to access this list"}, :status => 403 and return false
+        render :json => {:message => "You are not allowed to access this item"}, :status => 403 and return false
       end
     end
   end
