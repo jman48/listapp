@@ -84,7 +84,9 @@ test:
 #
 production:
   <<: *default
+  encoding: utf8
   host: ec2-54-225-151-64.compute-1.amazonaws.com
   database: d80oq4fj4c122k
   username: rcvaegtiycztow
   password: <%= ENV['LISTAPP_DATABASE_PASSWORD'] %>
+  sslmode: require
