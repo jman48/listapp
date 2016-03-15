@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   scope '/lists/' do
     post '' => 'list#create'
+    get '' => 'list#all'
     get ':id' => 'list#show'
     delete ':id' => 'list#delete'
     put ':id' => 'list#update'

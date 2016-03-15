@@ -17,6 +17,12 @@ class ListController < ApplicationController
     render :json => @list
   end
 
+  def all
+    lists = List.joins(:users).where(:users => {:id => @user.id})
+
+    render :json => lists.to_json
+  end
+
   def delete
     @list.destroy
 
