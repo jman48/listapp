@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
   def auth_user
     token = request.headers["token"]
 
+    if token == nil
+      render :json => { :message => "Must provide an auth token" }, :status => 401 and return false
+    end
+
     begin
       payload = JWT.decode token, ENV["SECRET"], true, { :algorithm => 'HS256'}
 
