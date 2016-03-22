@@ -14,6 +14,10 @@ class UserController < ApplicationController
   def login
     user = User.find_by_username(user_params[:username])
 
+    if user == nil
+      render :json => {:message => "Username or password is incorrect"}, :status => 400 and return false
+    end
+
     if user.authenticate user_params[:password]
 
       expiry = Time.now + 7.days
@@ -26,7 +30,7 @@ class UserController < ApplicationController
 
       render :json => {:token => token}
     else
-      render :json => {:message => "Password is incorrect"}, :status => 400
+      render :json => {:message => "Username or password is incorrect"}, :status => 400
     end
   end
 
