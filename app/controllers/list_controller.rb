@@ -31,9 +31,9 @@ class ListController < ApplicationController
 
   def update
     if @list.update(list_params)
-      render :json => list.to_json, :status => 200
+      render :json => @list.to_json, :status => 200
     else
-      render :json => {:message => list.errors.messages}.to_json, :status => 400
+      render :json => {:message => @list.errors.messages}.to_json, :status => 400
     end
   end
 

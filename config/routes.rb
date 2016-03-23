@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       get '' => 'item#list'
       delete ':id' => 'item#delete'
       get ':id' => 'item#show'
+      put ':id' => 'item#update'
     end
   end
 

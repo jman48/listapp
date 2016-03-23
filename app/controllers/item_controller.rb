@@ -1,6 +1,6 @@
 class ItemController < ApplicationController
   before_action :get_list
-  before_action :get_item, only: [:delete, :show]
+  before_action :get_item, only: [:delete, :show, :update]
 
   def create
     item = Item.new(item_params)
@@ -25,6 +25,14 @@ class ItemController < ApplicationController
 
   def show
     render :json => @item
+  end
+
+  def update
+    if @item.update(item_params)
+      render :json => @item.to_json, :status => 200
+    else
+      render :json => {:message => @item.errors.messages}.to_json, :status => 400
+    end
   end
 
   private
