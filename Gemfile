@@ -31,6 +31,8 @@ gem 'rails_12factor'
 
 gem 'rack-cors', :require => 'rack/cors'
 
+gem 'email_validator'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
