@@ -7,7 +7,7 @@ class ItemController < ApplicationController
     @list.items.push(item)
 
     if @list.save
-      render :json => {:message => "Item saved successfully"}
+      render :json => item.to_json, :status => 201
     else
       render :json => {:message => @list.errors.messages.to_json}, :status => 400
     end
