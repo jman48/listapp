@@ -15,10 +15,10 @@ class UserController < ApplicationController
   end
 
   def login
-    user = User.find_by_username(user_params[:username])
+    user = User.find_by_email(user_params[:email])
 
     if user == nil
-      render :json => {:message => "Username or password is incorrect"}, :status => 400 and return false
+      render :json => {:message => "Email or password is incorrect"}, :status => 400 and return false
     end
 
     if user.authenticate user_params[:password]
@@ -27,7 +27,7 @@ class UserController < ApplicationController
 
       render :json => {:token => token}
     else
-      render :json => {:message => "Username or password is incorrect"}, :status => 400
+      render :json => {:message => "Email or password is incorrect"}, :status => 400
     end
   end
 
@@ -40,7 +40,7 @@ class UserController < ApplicationController
   def login_user user
     expiry = Time.now + 7.days
 
-    payload = {:username => user.username, :exp => expiry.to_i}
+    payload = {:email => user.email, :exp => expiry.to_i}
 
     return JWT.encode payload, ENV["SECRET"], 'HS256'
   end

@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     begin
       payload = JWT.decode token, ENV["SECRET"], true, { :algorithm => 'HS256'}
 
-      @user = User.find_by_username payload[0]["username"]
+      @user = User.find_by_email payload[0]["email"]
 
       if !@user
         render :json => { :message => "User does not exist. Please create and account or login as some one else" }, :status => 404
