@@ -31,6 +31,10 @@ class UserController < ApplicationController
     end
   end
 
+  def show
+    render :json => @user.safe_user
+  end
+
   private
 
   def user_params

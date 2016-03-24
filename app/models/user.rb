@@ -12,6 +12,16 @@ class User < ActiveRecord::Base
     return provided_pass == self.password
   end
 
+  #Return a user that is safe to use. e.g no password
+  def safe_user
+    user = {}
+
+    user["email"] = self.email
+    user["username"] = self.username
+
+    return user
+  end
+
   private
 
   def secure_password
