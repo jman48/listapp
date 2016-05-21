@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   validates :email, email: true
   has_and_belongs_to_many :lists
 
-  before_save :secure_password
+  before_save :secure_password, :set_email
 
   def authenticate password
     provided_pass = BCrypt::Engine.hash_secret(password, self.salt)
@@ -27,5 +27,9 @@ class User < ActiveRecord::Base
   def secure_password
     self.salt = BCrypt::Engine.generate_salt
     self.password = BCrypt::Engine.hash_secret(self.password, salt)
+  end
+
+  def set_email
+    self.email = self.email.downcase
   end
 end

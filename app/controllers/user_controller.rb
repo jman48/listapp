@@ -15,7 +15,7 @@ class UserController < ApplicationController
   end
 
   def login
-    user = User.find_by_email(user_params[:email])
+    user = User.find_by_email(user_params[:email].downcase)
 
     if user == nil
       render :json => {:message => "Email or password is incorrect"}, :status => 400 and return false
