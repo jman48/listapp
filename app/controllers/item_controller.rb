@@ -35,6 +35,16 @@ class ItemController < ApplicationController
     end
   end
 
+  def order
+    items = params.require(:items)
+
+    items.each do |item|
+      Item.find(item[:id]).update(order: item[:order])
+    end
+
+    render :json => {:message => "Items updated sucessfully"}.to_json, :status => 200
+  end
+
   private
 
   def item_params

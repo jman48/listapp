@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     delete '/:id' => 'list#delete'
     put '/:id' => 'list#update'
     post '/:id/users' => 'list#add_user'
-    post '/order' => 'list#order'
+    put '/order' => 'list#order'
 
     scope '/:list_id/items' do
       post '/' => 'item#create'
@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       delete '/:id' => 'item#delete'
       get '/:id' => 'item#show'
       put '/:id' => 'item#update'
+      put '/order' => 'item#order'
     end
   end
 
