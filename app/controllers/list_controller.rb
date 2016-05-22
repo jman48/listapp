@@ -54,6 +54,16 @@ class ListController < ApplicationController
     end
   end
 
+  def order
+    lists = params.require(:lists)
+
+    lists.each do |list|
+      List.find(list[:id]).update(order: list[:order])
+    end
+
+    render :json => {:message => "Lists updated sucessfully"}.to_json, :status => 200
+  end
+
   private
 
   def list_params
