@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   end
 
   def get_user user_id
-    user = User.find_by_user_id user_id
+    user = User.find_by user_id: user_id
 
     if !user
       auth0 = Auth0Client.new(
@@ -43,7 +43,15 @@ class User < ActiveRecord::Base
           :domain => "john.au.auth0.com"
       )
 
-      user = auth0.user user_id
+      auth0_user = auth0.user user_id
+
+      new_user = User.create(
+          user_id: auth0_user.user_id,
+          email: auth0_user.email,
+          username: auth0_user.name
+      )
+
+      new_user.save
     end
 
     return user
