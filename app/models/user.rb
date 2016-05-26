@@ -52,8 +52,6 @@ class User < ActiveRecord::Base
           email: auth0_user.email,
           username: auth0_user.name
       )
-
-      user.save
     end
 
     return user
