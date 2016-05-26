@@ -47,13 +47,13 @@ class User < ActiveRecord::Base
 
       auth0_user = auth0.user user_id
 
-      new_user = User.create(
+      user = User.create(
           user_id: auth0_user.user_id,
           email: auth0_user.email,
           username: auth0_user.name
       )
 
-      new_user.save
+      user.save
     end
 
     return user
