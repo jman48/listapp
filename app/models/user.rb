@@ -37,6 +37,12 @@ class User < ActiveRecord::Base
     user = User.find_by_user_id user_id
 
     if !user
+      auth0 = Auth0Client.new(
+          :api_version => 2,
+          :token => ENV['AUTH0_TOKEN'],
+          :domain => "john.au.auth0.com"
+      )
+
       user = auth0.user user_id
     end
 
