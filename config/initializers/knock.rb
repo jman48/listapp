@@ -1,4 +1,5 @@
 Knock.setup do |config|
+  require 'base64'
 
   ## User handle attribute
   ## ---------------------
@@ -52,7 +53,7 @@ Knock.setup do |config|
   ## is intended for.
   ##
   ## Default:
-  # config.token_audience = nil
+  config.token_audience = -> { Rails.application.secrets.auth0_client_id }
 
   ## If using Auth0, uncomment the line below
   # config.token_audience = -> { Rails.application.secrets.auth0_client_id }
@@ -70,8 +71,11 @@ Knock.setup do |config|
   ##
   ## Configure the key used to sign tokens.
   ##
-  ## Default:
-  # config.token_secret_signature_key = -> { Rails.application.secrets.secret_key_base }
+  config.token_secret_signature_key = -> {
+    secret = Rails.application.secrets.auth0_client_secret
+    secret += '=' * (4 - secret.length.modulo(4))
+    Base64.decode64(secret.tr('-_', '+/'))
+  }
 
   ## If using Auth0, uncomment the line below
   # config.token_secret_signature_key = -> { JWT.base64url_decode Rails.application.secrets.auth0_client_secret }
