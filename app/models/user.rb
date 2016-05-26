@@ -37,6 +37,8 @@ class User < ActiveRecord::Base
     user = User.find_by user_id: user_id
 
     if !user
+      logger.info "User not found in local DB. Getting user from auth0"
+      
       auth0 = Auth0Client.new(
           :api_version => 2,
           :token => ENV['AUTH0_TOKEN'],
