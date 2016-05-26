@@ -32,4 +32,14 @@ class User < ActiveRecord::Base
   def set_email
     self.email = self.email.downcase
   end
+
+  def get_user user_id
+    user = User.find_by_user_id user_id
+
+    if !user
+      user = auth0.user user_id
+    end
+
+    return user
+  end
 end
