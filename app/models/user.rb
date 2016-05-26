@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
     self.email = self.email.downcase
   end
 
-  def get_user user_id
+  def self.get_user user_id
     user = User.find_by user_id: user_id
 
     if !user
