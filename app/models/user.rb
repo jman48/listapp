@@ -8,12 +8,6 @@ class User < ActiveRecord::Base
 
   before_save :set_email
 
-  def authenticate password
-    provided_pass = BCrypt::Engine.hash_secret(password, self.salt)
-
-    return provided_pass == self.password
-  end
-
   #Return a user that is safe to use. e.g no password
   def safe_user
     user = {}

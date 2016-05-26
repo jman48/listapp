@@ -18,10 +18,4 @@ Rails.application.routes.draw do
       put '/:id' => 'item#update'
     end
   end
-
-  scope '/users' do
-    post '/' => 'user#sign_up'
-    post '/login' => 'user#login'
-    get '/' => 'user#show'
-  end
 end
