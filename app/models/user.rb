@@ -44,12 +44,10 @@ class User < ActiveRecord::Base
 
       auth0_user = auth0.user user_id
 
-      logger.debug "Retrieved user from auth0: " + auth0_user.email + ", " + auth0_user.name
-
       user = User.create(
-          user_id: auth0_user.user_id,
-          email: auth0_user.email,
-          username: auth0_user.name
+          user_id: auth0_user["user_id"],
+          email: auth0_user["email"],
+          username: auth0_user["name"]
       )
     end
 
