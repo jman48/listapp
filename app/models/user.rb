@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   require "auth0"
 
-  validates :username, :email, presence: true
-  validates :username, :email, uniqueness: true
+  validates :username, :email, :user_id, presence: true
+  validates :username, :user_id, uniqueness: true
   validates :email, email: true
   has_and_belongs_to_many :lists
 
