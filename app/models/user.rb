@@ -18,12 +18,6 @@ class User < ActiveRecord::Base
     return user
   end
 
-  private
-
-  def set_email
-    self.email = self.email.downcase
-  end
-
   def self.get_user user_id
     user = User.find_by user_id: user_id
 
@@ -37,14 +31,39 @@ class User < ActiveRecord::Base
       )
 
       auth0_user = auth0.user user_id
+      username = get_unique_username auth0_user["nickname"]
 
       user = User.create(
           user_id: auth0_user["user_id"],
           email: auth0_user["email"],
-          username: auth0_user["nickname"]
+          username: username
       )
     end
 
     return user
+  end
+
+  private
+
+  def set_email
+    self.email = self.email.downcase
+  end
+
+  #Returns a unique username when given a username when compared with local DB users table
+  def get_unique_username username
+    unique = false
+    username_unique = username
+    count = 0
+
+    while !unique
+      if User.find_by(username_unique)
+        unique = true
+      else
+        username_unique = username + count.to_s
+        count += 1
+      end
+    end
+
+    return username_unique
   end
 end
