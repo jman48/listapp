@@ -39,7 +39,13 @@ class ItemController < ApplicationController
     items = params.require(:items)
 
     items.each do |item|
-      Item.find(item[:id]).update(order: item[:order])
+      item = Item.find(item[:id])
+
+      if !item.can_access @user
+        render :json => {:message => "You are not allowed to access this item"}, :status => 403 and return false
+      end
+
+      item.update(order: item[:order])
     end
 
     render :json => {:message => "Items updated sucessfully"}.to_json, :status => 200
@@ -58,7 +64,7 @@ class ItemController < ApplicationController
       @list = List.includes(:users).find(params[:list_id])
 
       if !@list.can_access @user
-        render :json => {:message => "You are not allowed to access this item"}, :status => 403 and return false
+        render :json => {:message => "You are not allowed to access this list"}, :status => 403 and return false
       end
     end
   end
