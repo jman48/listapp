@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
       user = User.create(
           user_id: auth0_user["user_id"],
           email: auth0_user["email"],
-          username: auth0_user["name"]
+          username: auth0_user["nickname"]
       )
     end
 
