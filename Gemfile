@@ -33,6 +33,10 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem 'email_validator'
 
+gem 'knock', '~> 1.4.2'
+
+gem 'auth0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

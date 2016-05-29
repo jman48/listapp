@@ -57,7 +57,7 @@ class ItemController < ApplicationController
     else
       @list = List.includes(:users).find(params[:list_id])
 
-      if !@list.users.include? @user
+      if !@list.can_access @user
         render :json => {:message => "You are not allowed to access this item"}, :status => 403 and return false
       end
     end
@@ -68,6 +68,10 @@ class ItemController < ApplicationController
       render :json => {:message => "Item not found"}, :status => 404
     else
       @item = Item.find params[:id]
+
+      if !@item.can_access @user
+        render :json => {:message => "You do not have access to this item"}, :status => 403
+      end
     end
   end
 end

@@ -6,6 +6,11 @@ class List < ActiveRecord::Base
 
   has_and_belongs_to_many :users
 
+  #Check whether a user can access this list
+  def can_access user
+    return self.users.include? user
+  end
+
   private
 
   def set_defaults

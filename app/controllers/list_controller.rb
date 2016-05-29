@@ -58,7 +58,13 @@ class ListController < ApplicationController
     lists = params.require(:lists)
 
     lists.each do |list|
-      List.find(list[:id]).update(order: list[:order])
+      list = List.find(list[:id])
+
+      if !list.can_access @user
+        render :json => {:message => "You are not allowed to access this list"}, :status => 403 and return false
+      end
+
+      list.update(order: list[:order])
     end
 
     render :json => {:message => "Lists updated sucessfully"}.to_json, :status => 200
@@ -74,7 +80,7 @@ class ListController < ApplicationController
     if List.exists? params[:id]
       @list = List.includes(:users).find(params[:id])
 
-      if !@list.users.include? @user
+      if !@list.can_access @user
         render :json => {:message => "You are not allowed to access this list"}, :status => 403 and return false
       end
     else
