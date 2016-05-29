@@ -18,4 +18,8 @@ Rails.application.routes.draw do
       put '/:id' => 'item#update'
     end
   end
+
+  scope '/users' do
+    post '/search' => 'user#search'
+  end
 end
