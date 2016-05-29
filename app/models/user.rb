@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
       )
 
       auth0_user = auth0.user user_id
-      username = get_unique_username auth0_user["nickname"]
+      username = User.get_unique_username auth0_user["nickname"]
 
       user = User.create(
           user_id: auth0_user["user_id"],
@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   end
 
   #Returns a unique username when given a username when compared with local DB users table
-  def get_unique_username username
+  def self.get_unique_username username
     unique = false
     username_unique = username
     count = 0
