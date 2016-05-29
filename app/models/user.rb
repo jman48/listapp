@@ -56,11 +56,11 @@ class User < ActiveRecord::Base
     count = 0
 
     while !unique
-      if User.find_by(username_unique)
-        unique = true
-      else
+      if User.find_by(username: username_unique)
         username_unique = username + count.to_s
         count += 1
+      else
+        unique = true
       end
     end
 
