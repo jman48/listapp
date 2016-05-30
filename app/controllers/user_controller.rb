@@ -1,7 +1,7 @@
 class UserController < ApplicationController
 
   def search
-    search_string = params.require(:search).permit(:username)
+    search_string = params.require(:search).permit(:username)[:username]
 
     if search_string.length < 3
       render :json => {:message => "Search string is to short. Minimum of 3"}, :status => 400 and return false
