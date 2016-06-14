@@ -9,6 +9,10 @@ class UserController < ApplicationController
 
     users = User.where("username LIKE ?", search_string + "%").pluck(:username, :picture)
 
+    users = users.map {|user|
+      {:username => user[0], :picture => user[1]}
+    }
+
     render :json => users.to_json, :status => 200
   end
 
