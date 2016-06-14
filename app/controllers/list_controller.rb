@@ -1,5 +1,5 @@
 class ListController < ApplicationController
-  before_action :get_list, only: [:show, :delete, :update, :add_user]
+  before_action :get_list, only: [:show, :delete, :update, :add_users]
 
   def create
     list = List.new(list_params)
@@ -37,23 +37,6 @@ class ListController < ApplicationController
     end
   end
 
-  def add_user
-    username = params.require(:user).permit(:username)[:username]
-    new_user = User.find_by_username(username)
-
-    if new_user == nil
-      render :json => { :message => "Can not add user" }, :status => 400
-    end
-
-    @list.users.push(new_user)
-
-    if @list.save
-      render :json => { :message => "User added to list" }
-    else
-      render :json => {:message => @list.errors.messages}.to_json, :status => 400
-    end
-  end
-
   def order
     lists = params.require(:lists)
 
@@ -68,6 +51,24 @@ class ListController < ApplicationController
     end
 
     render :json => {:message => "Lists updated sucessfully"}.to_json, :status => 200
+  end
+
+  def add_users
+    usernames = params.require(:users)
+
+    users = User.where(username: usernames)
+
+    users.each {|user|
+      if !@list.users.include?(user)
+        @list.users.push(user)
+      end
+    }
+
+    if @list.save
+      render :json => { :message => "Users added to list" }
+    else
+      render :json => {:message => @list.errors.messages}.to_json, :status => 400
+    end
   end
 
   private
