@@ -71,6 +71,14 @@ class ListController < ApplicationController
     end
   end
 
+  def get_users
+    users = @list.users.map {|user|
+      {:username => user.username, :picture => user.picture}
+    }
+
+    render :json => users.to_json
+  end
+
   private
 
   def list_params
