@@ -1,5 +1,5 @@
 class ListController < ApplicationController
-  before_action :get_list, only: [:show, :delete, :update, :add_users]
+  before_action :get_list, only: [:show, :delete, :update, :add_users, :get_users]
 
   def create
     list = List.new(list_params)
@@ -69,6 +69,14 @@ class ListController < ApplicationController
     else
       render :json => {:message => @list.errors.messages}.to_json, :status => 400
     end
+  end
+
+  def get_users
+    users = @list.users.map {|user|
+      {:username => user.username, :picture => user.picture}
+    }
+
+    render :json => users.to_json
   end
 
   private

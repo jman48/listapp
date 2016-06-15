@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
       user = User.create(
           user_id: auth0_user["user_id"],
           email: auth0_user["email"],
-          username: username
+          username: username.downcase
       )
     end
 
