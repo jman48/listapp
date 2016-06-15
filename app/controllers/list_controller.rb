@@ -1,5 +1,5 @@
 class ListController < ApplicationController
-  before_action :get_list, only: [:show, :delete, :update, :add_users]
+  before_action :get_list, only: [:show, :delete, :update, :add_users, :get_users]
 
   def create
     list = List.new(list_params)
