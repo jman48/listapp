@@ -80,9 +80,8 @@ class ListController < ApplicationController
   end
 
   def remove_user
-    params.require(:user).permit(:username)
 
-    if !params.has_key? :username || params[:username].empty?
+    if params[:username].empty?
       render :json => {:message => "You need to include the username"}, :status => 400 and return false
     end
 
