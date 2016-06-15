@@ -85,7 +85,7 @@ class ListController < ApplicationController
       render :json => {:message => "You need to include the username"}, :status => 400 and return false
     end
 
-    user = User.get_by_username(params[:username])
+    user = User.find_by_username(params[:username])
 
     if @list.users.length > 1
       @list.users.delete(user)
