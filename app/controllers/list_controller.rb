@@ -73,7 +73,7 @@ class ListController < ApplicationController
 
   def get_users
     users = @list.users.map { |user|
-      {:username => user.username, :picture => user.picture}
+      {:username => user.username, :picture => user.picture, :user_id => user.id}
     }
 
     render :json => users.to_json
