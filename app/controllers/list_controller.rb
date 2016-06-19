@@ -40,14 +40,14 @@ class ListController < ApplicationController
   def order
     lists = params.require(:lists)
 
-    lists.each do |list|
-      list = List.find(list[:id])
+    lists.each do |list_order|
+      list = List.find(list_order[:id])
 
       if !list.can_access @user
         render :json => {:message => "You are not allowed to access this list"}, :status => 403 and return false
       end
 
-      list.update(order: list[:order])
+      list.update(order: list_order[:order])
     end
 
     render :json => {:message => "Lists updated sucessfully"}.to_json, :status => 200

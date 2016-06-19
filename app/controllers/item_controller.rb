@@ -38,14 +38,14 @@ class ItemController < ApplicationController
   def order
     items = params.require(:items)
 
-    items.each do |item|
-      item = Item.find(item[:id])
+    items.each do |item_order|
+      item = Item.find(item_order[:id])
 
       if !item.can_access @user
         render :json => {:message => "You are not allowed to access this item"}, :status => 403 and return false
       end
 
-      item.update(order: item[:order])
+      item.update(order: item_order[:order])
     end
 
     render :json => {:message => "Items updated sucessfully"}.to_json, :status => 200
