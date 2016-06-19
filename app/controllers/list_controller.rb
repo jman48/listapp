@@ -1,5 +1,5 @@
 class ListController < ApplicationController
-  before_action :get_list, only: [:show, :delete, :update, :add_users, :get_users]
+  before_action :get_list, only: [:show, :delete, :update, :add_users, :get_users, :remove_user]
 
   def create
     list = List.new(list_params)
@@ -58,25 +58,47 @@ class ListController < ApplicationController
 
     users = User.where(username: usernames)
 
-    users.each {|user|
+    users.each { |user|
       if !@list.users.include?(user)
         @list.users.push(user)
       end
     }
 
     if @list.save
-      render :json => { :message => "Users added to list" }
+      render :json => {:message => "Users added to list"}
     else
       render :json => {:message => @list.errors.messages}.to_json, :status => 400
     end
   end
 
   def get_users
-    users = @list.users.map {|user|
+    users = @list.users.map { |user|
       {:username => user.username, :picture => user.picture}
     }
 
     render :json => users.to_json
+  end
+
+  def remove_user
+
+    if params[:username].empty?
+      render :json => {:message => "You need to include the username"}, :status => 400 and return false
+    end
+
+    user = User.find_by_username(params[:username])
+
+    if @list.users.length > 1
+      @list.users.delete(user)
+    else
+      render :json => {:message => "Can not delete the only user on this list"}, :status => 400 and return false
+    end
+
+    if @list.save
+      render :json => {:message => "User removed from list"}
+    else
+      render :json => {:message => @list.errors.messages}, :status => 400
+    end
+
   end
 
   private
