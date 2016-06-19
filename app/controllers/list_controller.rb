@@ -80,12 +80,11 @@ class ListController < ApplicationController
   end
 
   def remove_user
-
-    if params[:username].empty?
-      render :json => {:message => "You need to include the username"}, :status => 400 and return false
+    if !User.exists? params[:user_id]
+      render :json => {:message => "User not found"}, :status => 404 and return false
     end
 
-    user = User.find_by_username(params[:username])
+    user = User.find(params[:user_id])
 
     if @list.users.length > 1
       @list.users.delete(user)
