@@ -23,5 +23,6 @@ Rails.application.routes.draw do
 
   scope '/users' do
     post '/search' => 'user#search'
+    get '/' => 'user#get_logged_in'
   end
 end

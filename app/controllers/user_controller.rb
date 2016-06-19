@@ -16,4 +16,8 @@ class UserController < ApplicationController
     render :json => users.to_json, :status => 200
   end
 
+  def get_logged_in
+    render :json => @user.safe_user
+  end
+
 end
