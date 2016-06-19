@@ -10,14 +10,10 @@ class User < ActiveRecord::Base
 
   #Return a user that is safe to use. e.g no password
   def safe_user
-    user = {}
-
-    user["email"] = self.email
-    user["username"] = self.username
-
-    return user
+    {:username => self.username, :picture => self.picture, :id => self.id}
   end
 
+  #Get a user based on auth0 user id.
   def self.get_user user_id
     user = User.find_by user_id: user_id
 

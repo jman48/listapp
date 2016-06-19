@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     put '/:id' => 'list#update'
     post '/:id/users' => 'list#add_users'
     get '/:id/users' => 'list#get_users'
-    delete '/:id/users/:username' => 'list#remove_user'
+    delete '/:id/users/:user_id' => 'list#remove_user'
 
     scope '/:list_id/items' do
       post '/' => 'item#create'
@@ -23,5 +23,6 @@ Rails.application.routes.draw do
 
   scope '/users' do
     post '/search' => 'user#search'
+    get '/' => 'user#get_logged_in'
   end
 end
