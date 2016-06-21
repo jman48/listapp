@@ -10,4 +10,8 @@ class ApplicationController < ActionController::Base
   def show_user
     @user = current_user
   end
+
+  def log_warn msg
+    logger.warn '[' + @user.user_id.to_s + '] - ' + msg
+  end
 end

@@ -9,6 +9,7 @@ class ListController < ApplicationController
     if list.save
       render :json => list.to_json, :status => 201
     else
+      log_warn 'Failed to create a list. Details: ' + list.errors.messages.to_s
       render :json => {:message => list.errors.messages}.to_json, :status => 400
     end
   end
@@ -33,6 +34,7 @@ class ListController < ApplicationController
     if @list.update(list_params)
       render :json => @list.to_json, :status => 200
     else
+      log_warn 'Failed to update list ' + @list.id.to_s + '. Details: ' + @list.errors.messages.to_s
       render :json => {:message => @list.errors.messages}.to_json, :status => 400
     end
   end
@@ -44,6 +46,7 @@ class ListController < ApplicationController
       list = List.find(list_order[:id])
 
       if !list.can_access @user
+        log_warn 'Failed to order list due to no access. Details: ' + list.to_s
         render :json => {:message => "You are not allowed to access this list"}, :status => 403 and return false
       end
 
@@ -67,6 +70,7 @@ class ListController < ApplicationController
     if @list.save
       render :json => {:message => "Users added to list"}
     else
+      log_warn 'Failed to add users to a list a list. LIST ID:' + @list.id.to_s + ' Details: ' + list.errors.messages.to_s
       render :json => {:message => @list.errors.messages}.to_json, :status => 400
     end
   end
@@ -81,6 +85,7 @@ class ListController < ApplicationController
 
   def remove_user
     if !User.exists? params[:user_id]
+      log_warn 'Failed to remove user ' + params[:user_id].to_s + ' from list with ID: ' + @list.id.to_s + ' .User not found'
       render :json => {:message => "User not found"}, :status => 404 and return false
     end
 
@@ -89,12 +94,14 @@ class ListController < ApplicationController
     if @list.users.length > 1
       @list.users.delete(user)
     else
+      log_warn 'Failed to remove user from list ' + @list.id.to_s + '. Only 1 user in list'
       render :json => {:message => "Can not delete the only user on this list"}, :status => 400 and return false
     end
 
     if @list.save
       render :json => {:message => "User removed from list"}
     else
+      log_warn 'Failed to remove user from list ' + @list.id.to_s + '. Details: ' + @list.errors.messages.to_s
       render :json => {:message => @list.errors.messages}, :status => 400
     end
 
@@ -114,6 +121,7 @@ class ListController < ApplicationController
         render :json => {:message => "You are not allowed to access this list"}, :status => 403 and return false
       end
     else
+      log_warn 'Failed to set list ' + params[:id].to_s + '. List not found'
       render :json => {:message => "List not found"}.to_json, :status => 404 and return false
     end
   end
